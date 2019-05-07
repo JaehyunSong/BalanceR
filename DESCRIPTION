@@ -1,0 +1,9 @@
+Package: BalanceR
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Jaehyun Song
+Maintainer: Jaehyun Song <tintstyle@gmail.com>
+Description: Balance check with standardized bias
+Encoding: UTF-8
+LazyData: true
