@@ -12,9 +12,7 @@ Song Jaehyun (http://www.jaysong.net / tintstyle@gmail.com)
 
 <center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;(s^2_{\textrm{Treat}}&space;&plus;&space;s^2_{\textrm{Control}})}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot (s^2_{\textrm{Treat}} + s^2_{\textrm{Control}})}}" /></center>
 
-Xバーは平均値、s二乗は分散を意味します。ちなみにダミー変数の場合、以下のようになります[^1]。
-
-[^1]: `BalanceR`では変数が0/1のみで構成されている場合、この式で標準化差分を計算します。逆に言うと1/2のみで構成されている場合は該当しないので、データクリーニングの段階でダミー化をやっておくことをおすすめします。
+Xバーは平均値、s二乗は分散を意味します。ちなみにダミー変数の場合、以下のようになります。(`BalanceR`では変数が0/1のみで構成されている場合、この式で標準化差分を計算します。逆に言うと1/2のみで構成されている場合は該当しないので、データクリーニングの段階でダミー化をやっておくことをおすすめします。)
 
 <center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;((\bar{X}_{\textrm{Treat}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Treat}})&space;&plus;&space;(\bar{X}_{\textrm{Control}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Control}}))}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot ((\bar{X}_{\textrm{Treat}} \cdot (1 - \bar{X}_{\textrm{Treat}}) + (\bar{X}_{\textrm{Control}} \cdot (1 - \bar{X}_{\textrm{Control}}))}}" /></center>
 
