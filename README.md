@@ -6,6 +6,21 @@ Song Jaehyun (http://www.jaysong.net / tintstyle@gmail.com)
 開発途上のパッケージです。不具合は改善点など、歓迎致します。
 
 ---
+## Standardized Biasについて
+
+実験群として統制群 (Control)と処置群 (Treat)がある場合、共変量Xの標準化差分は以下のように計算できます。
+
+<center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;(s^2_{\textrm{Treat}}&space;&plus;&space;s^2_{\textrm{Control}})}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot (s^2_{\textrm{Treat}} + s^2_{\textrm{Control}})}}" /></center>
+
+Xバーは平均値、s二乗は分散を意味します。ちなみにダミー変数の場合、以下のようになります[^1]。
+
+[^1]: `BalanceR`では変数が0/1のみで構成されている場合、この式で標準化差分を計算します。逆に言うと1/2のみで構成されている場合は該当しないので、データクリーニングの段階でダミー化をやっておくことをおすすめします。
+
+<center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;((\bar{X}_{\textrm{Treat}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Treat}})&space;&plus;&space;(\bar{X}_{\textrm{Control}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Control}}))}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot ((\bar{X}_{\textrm{Treat}} \cdot (1 - \bar{X}_{\textrm{Treat}}) + (\bar{X}_{\textrm{Control}} \cdot (1 - \bar{X}_{\textrm{Control}}))}}" /></center>
+
+分野によって基準は変わりうると思いますが、標準化差分が3, 5, 10未満ならバランスが取れていると判断します。社会科学では見る例だと10が多いような気がします。
+
+---
 
 ## インストール
 
@@ -29,7 +44,7 @@ BlcChk <- BalanceR(data = BlcDF, group = "Group",
 print(BlcChk, digits = 3)
 ```
 
-以上の関数を走らせると以下のような結果が出ます。一般的に、Standardized Bias (SB)が10未満ならバランスが取れていると解釈します。他にも3か5を用いる場合もあります。
+以上の関数を走らせると以下のような結果が出ます。
 
 ```
   Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
@@ -52,7 +67,7 @@ BlcDF %>%
              cov   = c("Sex", "Age", "Educ", "Marriage"))
 ```
 
-結果画面のカスタマイズは現在のところ、小数点の桁数 (`digits`)とStandardized Baisのみ表示 (`only.SB`)です。
+結果画面のカスタマイズは現在のところ、小数点の桁数 (`digits`)と標準化差分のみ表示 (`only.SB`)です。
 
 デフォルトは`digits = 3`、`only.SB = FALSE`となります。
 
