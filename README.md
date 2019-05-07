@@ -102,7 +102,9 @@ BlcDF %>%
              cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
     plot(vline = c(10))
 ```
+
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot2.png)
+
 ```
 ## 点と文字の大きさを変更
 BlcDF %>%
@@ -111,3 +113,18 @@ BlcDF %>%
     plot(point.size = 5, text.size = 18)
 ```
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot3.png)
+
+図はggplot2で作成されているので、`+`で繋げれば、自由にカスタマイズできます。
+
+```
+## もっともっとカスタマイズしたい
+BlcDF %>% 
+    BalanceR(group = "Group", 
+             cov   = c("Sex", "Age", "Educ", "Marriage")) %>% 
+    plot(point.size = 5, text.size = 18) +
+    labs(x = "標準化差分", y = "共変量") +
+    theme_bw(base_family = "HiraKakuProN-W3") +
+    theme(legend.position = "bottom",
+          text = element_text(size = 18))
+```
+![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot4.png)
