@@ -1,5 +1,5 @@
 # BalanceR
-Song Jaehyun (http://www.jaysong.net)
+Song Jaehyun (http://www.jaysong.net / tintstyle@gmail.com)
 
 実験データのバランスチェック (修正：2019年5月7日)
 
