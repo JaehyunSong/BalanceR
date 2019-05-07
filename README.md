@@ -29,7 +29,7 @@ BlcChk <- BalanceR(data = BlcDF, group = "Group",
 print(BlcChk)
 ```
 
-以上の関数を走らせると以下のような結果が出ます。
+以上の関数を走らせると以下のような結果が出ます。一般的に、Standardized Bias (SB)が10未満ならバランスが取れていると解釈します。他にも3か5を用いる場合もあります。
 
 ```
   Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
