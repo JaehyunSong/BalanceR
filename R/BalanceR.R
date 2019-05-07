@@ -1,3 +1,8 @@
+#' @import dplyr
+#' @import forcats
+#' @import tidyr
+#' @import ggplot2
+#' @importFrom rlang parse_exprs
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
     my <- mean(y, na.rm = TRUE)
@@ -150,11 +155,3 @@ plot.BalanceR <- function(data,
 
     print(plot_x)
 }
-
-Test.df %>%
-    BalanceR(group = "Group", cov = c("Sex", "Educ")) %>%
-    print(only.SB = TRUE)
-
-Test.df %>%
-    BalanceR(group = "Group", cov = c("Sex", "Educ")) %>%
-    plot()
