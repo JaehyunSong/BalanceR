@@ -7,5 +7,4 @@ Maintainer: Jaehyun Song <tintstyle@gmail.com>
 Description: Balance check with standardized bias
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr
-Imports: ggplot2
+Imports: dplyr, ggplot2
