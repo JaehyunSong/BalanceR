@@ -125,7 +125,19 @@ BlcDF %>%
              cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
     plot(point.size = 5, text.size = 18)
 ```
+
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot3.png)
+
+白黒に出力する場合、`color = FALSE`を指定してください。
+```
+## 白黒に変更
+BlcDF %>%
+    BalanceR(group = "Group",
+             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    plot(point.size = 5, text.size = 18, color = FALSE)
+```
+
+![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot5.png)
 
 図はggplot2で作成されているので、`+`で繋げれば、自由にカスタマイズできます。
 
