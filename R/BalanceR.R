@@ -3,6 +3,8 @@
 #' @import tidyr
 #' @import ggplot2
 #' @import rlang
+#' @importFrom stats var
+#' @importFrom utils combn
 
 BalanceR <- function(data, group, cov) {
     Group    <- as.character(sort(unique(data[, group])))

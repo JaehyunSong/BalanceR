@@ -13,6 +13,7 @@ BalanceR(data, group, cov)
 Balance check using standardized bias. If SBs are under 3, 5, or 10, you can interprete covariates are balanced between experimental groups.
 }
 \examples{
+\dontrun{
 # Load a dummy dataset
 data(BlcDF)
 
@@ -57,4 +58,5 @@ BlcDF \%>\%
     BalanceR(group = "Group",
              cov   = c("Sex", "Age", "Educ", "Marriage")) \%>\%
     plot(color = FALSE)
+}
 }
