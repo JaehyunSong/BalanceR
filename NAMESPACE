@@ -2,6 +2,7 @@
 exportPattern("^[^\\.]")
 
 import(dplyr)
+import(magrittr)
 import(forcats)
 import(ggplot2)
 import(rlang)

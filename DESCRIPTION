@@ -7,6 +7,6 @@ Maintainer: Jaehyun Song <tintstyle@gmail.com>
 Description: Balance check using standardized bias
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr, ggplot2, rlang, forcats, tidyr
+Imports: magrittr, dplyr, ggplot2, rlang, forcats, tidyr
 License: GPL-2 | GPL-3
 RoxygenNote: 6.1.1
