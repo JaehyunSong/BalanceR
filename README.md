@@ -61,9 +61,11 @@ print(BlcChk, digits = 3)
 4     0.491             5.458             7.243            1.783
 ```
 
-パイプ演算子(`%>%`)も使えます。
+`magrittr`パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ (`dplyr`、`ggplot2`など)が読み込まれているなら、パイプ演算子も使えます。
 
 ```
+library(magrittr)
+
 BlcDF %>%
     BalanceR(group = "Group",
              cov   = c("Sex", "Age", "Educ", "Marriage"))
