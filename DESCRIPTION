@@ -1,10 +1,10 @@
 Package: BalanceR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Balance check using standardized bias
 Version: 0.1.1
 Author: Jaehyun Song
 Maintainer: Jaehyun Song <tintstyle@gmail.com>
-Description: Balance check with standardized bias
+Description: Balance check using standardized bias
 Encoding: UTF-8
 LazyData: true
 Imports: dplyr, ggplot2, rlang

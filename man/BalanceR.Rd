@@ -1,5 +1,5 @@
 \name{BalanceR}
-\alias{hello}
+\alias{BalanceR}
 \title{Balance Check with Standardized Bias}
 \usage{
 BalanceR(data, group, cov)
