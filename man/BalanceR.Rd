@@ -51,4 +51,10 @@ BlcDF \%>\%
     BalanceR(group = "Group",
              cov   = c("Sex", "Age", "Educ", "Marriage")) \%>\%
     plot(point.size = 3, text.size = 12)
+
+## Display black-white plot
+BlcDF \%>\%
+    BalanceR(group = "Group",
+             cov   = c("Sex", "Age", "Educ", "Marriage")) \%>\%
+    plot(color = FALSE)
 }

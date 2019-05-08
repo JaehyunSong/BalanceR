@@ -2,7 +2,7 @@
 #' @import forcats
 #' @import tidyr
 #' @import ggplot2
-#' @importFrom rlang parse_exprs
+#' @import rlang
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
     my <- mean(y, na.rm = TRUE)
@@ -131,8 +131,9 @@ print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
 
 plot.BalanceR <- function(data,
                           point.size = 2.5,
-                          text.size = 12,
-                          vline = c(3, 5, 10)) {
+                          text.size  = 12,
+                          vline      = c(3, 5, 10),
+                          color      = TRUE) {
     x <- data$SB
     x <- x %>%
         select(Covariate, starts_with("SB")) %>%
@@ -141,17 +142,28 @@ plot.BalanceR <- function(data,
         select(-X)
 
     plot_x <- x %>%
-        ggplot(aes(x = SB, y = Covariate, color = Pair)) +
+        ggplot(aes(x = SB, y = Covariate)) +
         geom_vline(xintercept = c(-vline, vline),
                    linetype = 2) +
-        geom_vline(xintercept = 0) +
-        geom_point(size = point.size) +
+        geom_vline(xintercept = 0)
+
+    if (color == TRUE) {
+        plot_x <- plot_x +
+            geom_point(aes(color = Pair), size = point.size) +
+            labs(color = "")
+    }else{
+        plot_x <- plot_x +
+            geom_point(aes(shape = Pair), size = point.size) +
+            labs(shape = "")
+    }
+
+    plot_x <- plot_x +
         scale_x_continuous(breaks = c(-vline, 0, vline),
                            labels = c(-vline, 0, vline)) +
-        labs(x = "Standardized Bias", color = "") +
+        labs(x = "Standardized Bias") +
         theme_bw() +
         theme(legend.position = "bottom",
               text = element_text(size = text.size))
 
-    print(plot_x)
+    return(plot_x)
 }
