@@ -5,6 +5,27 @@
 #' @import rlang
 #' @importFrom stats var
 #' @importFrom utils combn
+#' @export BalanceR
+#' @export print.BalanceR
+#' @export plot.BalanceR
+#' @export SB_Calc_B
+#' @export SB_Calc_C
+
+SB_Calc_C  <- function(x, y) {
+    mx <- mean(x, na.rm = TRUE)
+    my <- mean(y, na.rm = TRUE)
+    vx <- var(x, na.rm = TRUE)
+    vy <- var(x, na.rm = TRUE)
+
+    return(100 * (mx - my) / sqrt(0.5 * (vx + vy)))
+}
+
+SB_Calc_B  <- function(x, y) {
+    mx <- mean(x, na.rm = TRUE)
+    my <- mean(y, na.rm = TRUE)
+
+    return(100 * (mx - my) / sqrt(0.5 * (mx * (1 - mx) + my * (1 - my))))
+}
 
 BalanceR <- function(data, group, cov) {
     Group    <- as.character(sort(unique(data[, group])))
