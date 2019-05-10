@@ -11,6 +11,9 @@
 #' @export SB_Calc_B
 #' @export SB_Calc_C
 
+library(dplyr)
+library(ggplot2)
+
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
     my <- mean(y, na.rm = TRUE)
@@ -121,6 +124,9 @@ BalanceR <- function(data, group, cov) {
     return(Result)
 }
 
+#' @method print BalanceR
+#' @export
+
 print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
 
     if (only.SB == FALSE) {
@@ -136,6 +142,9 @@ print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
 
     print(x)
 }
+
+#' @method plot BalanceR
+#' @export
 
 plot.BalanceR <- function(data,
                           point.size = 2.5,

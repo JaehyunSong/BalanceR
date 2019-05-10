@@ -20,17 +20,20 @@ print.BalanceR(data, only.SB = FALSE, digits = 3)
 \seealso{\code{\link{BalanceR}}, \code{\link{plot.BalanceR}}}
 \examples{
 \dontrun{
+## S3 method for class 'BalanceR'
 data(BlcDF)
 
 BlcChk <- BalanceR(BlcDF, group = "Group",
                    cov = c("Sex", "Age", "Educ", "Marriage"))
 
+## Display the result with 3 digits.
 print(BlcChk, digits = 3)
 
+## Display only standardized biases with 4 digits.
 print(BlcChk, only.SB = TRUE, digits = 4)
 
-# Pipe operator is also available
-BlcChk %>%
+# A pipe operator (\%>\%) is also available
+BlcChk \%>\%
     BalanceR(group = "Group", cov = c("Sex", "Age", "Educ", "Marriage")) %>%
     print(digits = 2)
 }
