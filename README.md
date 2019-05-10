@@ -1,8 +1,8 @@
-# BalanceR 0.1.3
+# BalanceR 0.2.0
 
 Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
-実験データのバランスチェック (修正：2019年5月9日)
+実験データのバランスチェック (修正：2019年5月10日)
 
 開発途上のパッケージです。不具合は改善点など、歓迎致します。
 
