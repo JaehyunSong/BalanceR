@@ -31,6 +31,18 @@ SB_Calc_B  <- function(x, y) {
 }
 
 BalanceR <- function(data, group, cov) {
+
+    if (sum(cov %in% names(data)) != length(cov)) {
+
+        notList_i <- which(cov %in% names(data))
+        notList   <- cov[-notList_i]
+
+        warning(paste0("Some covariates are not in the data: ",
+                       paste0(notList, collapse = ", ")),
+                "\nCovariates not listed in the data are excluded.")
+
+        cov <- cov[notList_i]
+    }
     Group    <- as.character(sort(unique(data[, group])))
     NGroup   <- length(Group)
     GrpComb  <- combn(Group, 2)
