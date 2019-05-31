@@ -36,7 +36,7 @@ BalanceR <- function(data, group, cov) {
         data <- as.data.frame(data)
     }
 
-    if (prod(class(data)) == 0) {
+    if (prod(class(data) == "data.frame") == 0) {
         stop("Only data.frame class is supported.")
     } 
 
