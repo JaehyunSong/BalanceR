@@ -146,7 +146,7 @@ print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
         y <- data$SB
         y$Covariate <- NULL
 
-        x <- cbind(x, y[, -1])
+        x <- cbind(x, y)
     }else{
         x <- data$SB
     }
