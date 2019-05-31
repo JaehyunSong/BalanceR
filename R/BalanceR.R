@@ -32,6 +32,14 @@ SB_Calc_B  <- function(x, y) {
 
 BalanceR <- function(data, group, cov) {
 
+    if ("tbl_df" %in% class(data) == TRUE) {
+        data <- as.data.frame(data)
+    }
+
+    if (prod(class(data)) == 0) {
+        stop("Only data.frame class is supported.")
+    } 
+
     if (sum(cov %in% names(data)) != length(cov)) {
 
         notList_i <- which(cov %in% names(data))
