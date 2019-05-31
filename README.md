@@ -1,14 +1,15 @@
-# BalanceR 0.2.0
+# BalanceR 0.2.1
 
 Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
-実験データのバランスチェック (修正：2019年5月10日)
+実験データのバランスチェック (修正：2019年5月31日)
 
 開発途上のパッケージです。不具合は改善点など、歓迎致します。
 
 *更新履歴*
 
-* `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
+* 20190531: 実験群が2つの場合、`print()`関数の列名が正しく表示されない問題を修正しました。
+* 20190508: `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
 
 ---
 ## Standardized Biasについて
