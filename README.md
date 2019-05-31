@@ -8,7 +8,9 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 *更新履歴*
 
-* 20190531: 実験群が2つの場合、`print()`関数の列名が正しく表示されない問題を修正しました。
+* 20190531
+  1. 実験群が2つの場合、`print()`関数の列名が正しく表示されない問題を修正しました。
+  2. `tibble`オブジェクトで動かなかった問題を修正しました。
 * 20190508: `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
 
 ---
