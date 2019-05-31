@@ -144,6 +144,8 @@ print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
     if (only.SB == FALSE) {
         x <- data$Desc
         y <- data$SB
+        y$Covariate <- NULL
+
         x <- cbind(x, y[, -1])
     }else{
         x <- data$SB
