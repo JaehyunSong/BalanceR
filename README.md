@@ -1,4 +1,4 @@
-# BalanceR 0.2.2
+# BalanceR 0.2.3
 
 Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
@@ -8,7 +8,9 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 *更新履歴*
 
-* 20190615: グループ変数名が`"group"`の場合に`BalanceR()`関数が動かない問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
+* 20190615
+  1. グループ変数名が`"group"`の場合に`BalanceR()`関数が動かない問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
+  2. 欠損値が含まれる場合、記述統計量が`NA`と表示される問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
 * 20190531
   1. 実験群が2つの場合、`print()`関数の列名が正しく表示されない問題を修正しました。
   2. `tibble`オブジェクトで動かなかった問題を修正しました。
