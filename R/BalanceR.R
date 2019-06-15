@@ -67,7 +67,7 @@ BalanceR <- function(data, group, cov) {
     # Descriptive Statistics
     SumText <- paste0(rep(c("mean(", "sd("), NCov),
                       rep(cov, each = 2),
-                      rep(")", NCov * 2))
+                      rep(", na.rm = TRUE)", NCov * 2))
 
     DS <- data %>%
         group_by(Group = eval(parse(text = GroupV))) %>%
