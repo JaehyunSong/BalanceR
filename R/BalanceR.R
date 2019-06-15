@@ -38,7 +38,7 @@ BalanceR <- function(data, group, cov) {
 
     if (prod(class(data) == "data.frame") == 0) {
         stop("Only data.frame class is supported.")
-    } 
+    }
 
     if (sum(cov %in% names(data)) != length(cov)) {
 
@@ -52,6 +52,7 @@ BalanceR <- function(data, group, cov) {
         cov <- cov[notList_i]
     }
     Group    <- as.character(sort(unique(data[, group])))
+    GroupV   <- group
     NGroup   <- length(Group)
     GrpComb  <- combn(Group, 2)
     NComb    <- ncol(GrpComb)
@@ -69,7 +70,7 @@ BalanceR <- function(data, group, cov) {
                       rep(")", NCov * 2))
 
     DS <- data %>%
-        group_by(Group = eval(parse(text = group))) %>%
+        group_by(Group = eval(parse(text = GroupV))) %>%
         summarise(!!!parse_exprs(SumText)) %>%
         select(-Group) %>%
         as.data.frame()
