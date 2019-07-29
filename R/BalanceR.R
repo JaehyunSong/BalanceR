@@ -5,7 +5,7 @@
 #' @import rlang
 #' @importFrom stats var
 #' @importFrom utils combn
-#' @importFrom magrittr "%>%"
+#' @importFrom magrittr %>%
 #' @export BalanceR
 #' @export print.BalanceR
 #' @export plot.BalanceR
@@ -14,6 +14,7 @@
 
 library(dplyr)
 library(ggplot2)
+library(magrittr)
 
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
