@@ -5,6 +5,7 @@
 #' @import rlang
 #' @importFrom stats var
 #' @importFrom utils combn
+#' @importFrom magrittr "%>%"
 #' @export BalanceR
 #' @export print.BalanceR
 #' @export plot.BalanceR
