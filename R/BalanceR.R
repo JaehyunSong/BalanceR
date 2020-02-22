@@ -3,9 +3,9 @@
 #' @import tidyr
 #' @import ggplot2
 #' @import rlang
+#' @import magrittr
 #' @importFrom stats var
 #' @importFrom utils combn
-#' @importFrom magrittr "%>%"
 #' @export BalanceR
 #' @export print.BalanceR
 #' @export plot.BalanceR
@@ -133,6 +133,10 @@ BalanceR <- function(data, group, cov) {
                           paste0(rep(c("Mean:", "SD:"), NGroup),
                                  rep(Group, each = 2)),
                           paste0("SB:", CombName))
+
+    if (!is.null(names(cov))) {
+        names(cov)[names(cov) == ""] <- cov[names(cov) == ""]
+    }
 
     Result.df$Covariate <- cov
     Result.df$Covariate <- fct_rev(fct_inorder(Result.df$Covariate))
