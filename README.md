@@ -28,7 +28,7 @@ Xバーは平均値、s二乗は分散を意味します。ちなみにダミー
 
 <center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;((\bar{X}_{\textrm{Treat}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Treat}})&space;&plus;&space;(\bar{X}_{\textrm{Control}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Control}}))}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot ((\bar{X}_{\textrm{Treat}} \cdot (1 - \bar{X}_{\textrm{Treat}}) + (\bar{X}_{\textrm{Control}} \cdot (1 - \bar{X}_{\textrm{Control}}))}}" /></center>
 
-分野によって基準は変わりうると思いますが、標準化差分の絶対値が3, 5, 10未満ならバランスが取れていると判断します。社会科学では見る例だと10が多いような気がします。
+分野によって基準は変わりうると思いますが、標準化差分の絶対値が3, 5, 10, 25未満ならバランスが取れていると判断します。社会科学では見る例だと10か25が多いような気がします。
 
 ---
 
