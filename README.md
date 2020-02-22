@@ -8,14 +8,14 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 *更新履歴*
 
-  * 20200222
-  * 20190615
+  * Feb. 22, 2020: 共変量名を指定することが出来るように修正しました。
+  * Jun. 15, 2019
     1. グループ変数名が`"group"`の場合に`BalanceR()`関数が動かない問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
     2. 欠損値が含まれる場合、記述統計量が`NA`と表示される問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
-  * 20190531
+  * May 31, 2019
     1. 実験群が2つの場合、`print()`関数の列名が正しく表示されない問題を修正しました。
     2. `tibble`オブジェクトで動かなかった問題を修正しました。
-  * 20190508: `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
+  * May 8, 2019: `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
 
 ---
 ## Standardized Biasについて
