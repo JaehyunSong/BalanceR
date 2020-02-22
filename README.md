@@ -78,6 +78,25 @@ BlcDF %>%
              cov   = c("Sex", "Age", "Educ", "Marriage"))
 ```
 
+共変量名を指定することも可能です。一部のみの指定も可能です。
+
+```
+BlcDF %>%
+    BalanceR(group = "Group",
+             cov   = c("Gender" = "Sex", "Age", "Educ", "Marriage"))
+             
+  Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
+1    Gender        0.391      0.488       0.403     0.491       0.408
+2       Age       41.941      9.863      41.062     9.952      41.688
+3      Educ        3.213      0.902       3.245     0.888       3.226
+4  Marriage        0.438      0.496       0.411     0.492       0.402
+  SD:Treat2 SB:Control-Treat1 SB:Control-Treat2 SB:Treat1-Treat2
+1     0.492            -2.507            -3.527           -1.021
+2     9.366             8.912             2.561           -6.295
+3     0.901            -3.587            -1.466            2.154
+4     0.491             5.458             7.243            1.783
+```
+
 結果画面のカスタマイズは現在のところ、小数点の桁数 (`digits`)と標準化差分のみ表示 (`only.SB`)です。
 
 デフォルトは`digits = 3`、`only.SB = FALSE`となります。
