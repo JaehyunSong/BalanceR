@@ -13,6 +13,7 @@
 #' @export SB_Calc_C
 
 library(dplyr)
+library(rlang)
 library(ggplot2)
 library(magrittr)
 
@@ -136,9 +137,11 @@ BalanceR <- function(data, group, cov) {
 
     if (!is.null(names(cov))) {
         names(cov)[names(cov) == ""] <- cov[names(cov) == ""]
+        cov <- names(cov)
     }
 
-    Result.df$Covariate <- names(cov)
+    Result.df$Covariate <- cov
+
     Result.df$Covariate <- fct_rev(fct_inorder(Result.df$Covariate))
 
 
