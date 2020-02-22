@@ -23,6 +23,11 @@ BlcDF \%>\%
     BalanceR(group = "Group",
              cov   = c("Sex", "Age", "Educ", "Marriage"))
 
+## Define new names of covariates
+BlcDF \%>\%
+    BalanceR(group = "Group",
+             cov   = c("Gender" = "Sex", "Age", "Educ", "Marriage"))
+
 ## Show a result with 4-digits
 BlcDF \%>\%
     BalanceR(group = "Group",

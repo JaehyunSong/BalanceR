@@ -1,7 +1,7 @@
 Package: BalanceR
 Type: Package
 Title: Balance check using standardized bias
-Version: 0.2.3
+Version: 0.2.4
 Author: Jaehyun Song
 Maintainer: Jaehyun Song <tintstyle@gmail.com>
 Description: Balance check using standardized bias
@@ -9,4 +9,4 @@ Encoding: UTF-8
 LazyData: true
 Imports: dplyr, ggplot2, rlang, forcats, tidyr, magrittr
 License: GPL-2 | GPL-3
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
