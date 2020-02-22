@@ -138,7 +138,7 @@ BalanceR <- function(data, group, cov) {
         names(cov)[names(cov) == ""] <- cov[names(cov) == ""]
     }
 
-    Result.df$Covariate <- cov
+    Result.df$Covariate <- names(cov)
     Result.df$Covariate <- fct_rev(fct_inorder(Result.df$Covariate))
 
 
