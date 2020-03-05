@@ -44,7 +44,7 @@ devtools::install_github("JaehyunSong/BalanceR")
 
 ## 使い方
 
-* `BalanceR 0.5.0`は空白や特殊文字が含まれている変数名に対応しておりません。したがって、`\`Variable 1\``
+* `BalanceR 0.5.0`は空白や特殊文字が含まれている変数名に対応しておりません。したがって、` \`Variable 1\` `
 
 ```
 # パッケージの読み込み
