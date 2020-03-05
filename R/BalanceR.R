@@ -35,6 +35,7 @@ BalanceR <- function(data, group, cov) {
 
     temp.cov <- str_split(str_sub(deparse(substitute(cov)), 3, -2), ",")
     temp.cov <- unlist(temp.cov)
+    temp.cov <- str_replace_all(temp.cov, "\"", "")
     temp.cov <- str_replace_all(temp.cov, fixed(" "), "")
 
     temp.cov2 <- rep(NA, length(temp.cov))
