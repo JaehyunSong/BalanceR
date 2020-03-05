@@ -53,8 +53,8 @@ data(BalanceR)
 # ダミーデータの読み込み
 data(BlcDF)
 
-# 回答者の性別 (`Sex`)、年齢 (`Age`)、教育水準 (`Educ`)、結婚有無 (`Marriae`)のバランスチェック
-# 実験群を示す変数は`Group`
+# 回答者の性別 (Sex)、年齢 (Age)、教育水準 (Educ)、結婚有無 (Marriae)のバランスチェック
+# 実験群を示す変数はGroup
 BlcChk <- BalanceR(data = BlcDF, group = Group,
                    cov  = c(Sex, Age, Educ, Marriage))
 
