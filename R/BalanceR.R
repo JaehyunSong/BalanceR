@@ -2,6 +2,7 @@
 #' @import forcats
 #' @import tidyr
 #' @import ggplot2
+#' @import stringr
 #' @import rlang
 #' @import magrittr
 #' @importFrom stats var
@@ -11,11 +12,6 @@
 #' @export plot.BalanceR
 #' @export SB_Calc_B
 #' @export SB_Calc_C
-
-library(dplyr)
-library(rlang)
-library(ggplot2)
-library(magrittr)
 
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
@@ -34,6 +30,31 @@ SB_Calc_B  <- function(x, y) {
 }
 
 BalanceR <- function(data, group, cov) {
+
+    group <- deparse(substitute(group))
+
+    temp.cov <- str_split(str_sub(deparse(substitute(cov)), 3, -2), ",")
+    temp.cov <- unlist(temp.cov)
+    temp.cov <- str_replace_all(temp.cov, fixed(" "), "")
+
+    temp.cov2 <- rep(NA, length(temp.cov))
+    names(temp.cov2) <- rep(NA, length(temp.cov))
+
+    for (i in 1:length(temp.cov)) {
+        if (str_detect(temp.cov[i], "=") == TRUE) {
+            temp.cov2[i] <- unlist(str_split(temp.cov[i], "="))[2]
+            names(temp.cov2)[i] <- unlist(str_split(temp.cov[i], "="))[1]
+        } else {
+            temp.cov2[i] <- temp.cov[i]
+            names(temp.cov2)[i] <- temp.cov[i]
+        }
+    }
+
+    cov <- temp.cov2
+
+    if (length(group) != 1) {
+        stop("Length of group argument must be 1.")
+    }
 
     if ("tbl_df" %in% class(data) == TRUE) {
         data <- as.data.frame(data)

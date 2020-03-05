@@ -25,8 +25,8 @@ library(BlcDF)
 
 ## Show a plot
 BlcChk <- BlcDF \%>\%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage"))
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage))
 
 plot(BlcChk)
 

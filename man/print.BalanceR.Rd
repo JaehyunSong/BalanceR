@@ -24,7 +24,7 @@ print.BalanceR(data, only.SB = FALSE, digits = 3)
 data(BlcDF)
 
 BlcChk <- BalanceR(BlcDF, group = "Group",
-                   cov = c("Sex", "Age", "Educ", "Marriage"))
+                   cov = c(Sex, Age, Educ, Marriage))
 
 ## Display the result with 3 digits.
 print(BlcChk, digits = 3)
@@ -34,7 +34,7 @@ print(BlcChk, only.SB = TRUE, digits = 4)
 
 # A pipe operator (\%>\%) is also available
 BlcChk \%>\%
-    BalanceR(group = "Group", cov = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group, cov = c(Sex, Age, Educ, Marriage)) %>%
     print(digits = 2)
 }
 }
