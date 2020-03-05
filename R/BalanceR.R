@@ -32,6 +32,7 @@ SB_Calc_B  <- function(x, y) {
 BalanceR <- function(data, group, cov) {
 
     group <- deparse(substitute(group))
+    group <- str_replace_all(group, "\"", "")
 
     temp.cov <- str_split(str_sub(deparse(substitute(cov)), 3, -2), ",")
     temp.cov <- unlist(temp.cov)
