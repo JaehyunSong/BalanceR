@@ -44,13 +44,16 @@ devtools::install_github("JaehyunSong/BalanceR")
 ## 使い方
 
 ```
+# パッケージの読み込み
+data(BalanceR)
+
 # ダミーデータの読み込み
 data(BlcDF)
 
-# 回答者の性別 (Sex)、年齢 (Age)、教育水準 (Educ)、結婚有無 (Marriae)のバランスチェック
-# 実験群を示す変数は"Group"
-BlcChk <- BalanceR(data = BlcDF, group = "Group",
-                   cov  = c("Sex", "Age", "Educ", "Marriage"))
+# 回答者の性別 (`Sex`)、年齢 (`Age`)、教育水準 (`Educ`)、結婚有無 (`Marriae`)のバランスチェック
+# 実験群を示す変数は`Group`
+BlcChk <- BalanceR(data = BlcDF, group = Group,
+                   cov  = c(Sex, Age, Educ, Marriage))
 
 print(BlcChk, digits = 3)
 ```
@@ -76,22 +79,22 @@ print(BlcChk, digits = 3)
 library(magrittr)
 
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage"))
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage))
 ```
 
 共変量名を指定することも可能です。一部のみの指定も可能です。
 
 ```
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Gender" = "Sex", "Age", "Educ", "Marriage"))
+    BalanceR(group = Group,
+             cov   = c(Gender = Sex, Age, Education = Educ, Marriage))
              
-  Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
-1    Gender        0.391      0.488       0.403     0.491       0.408
-2       Age       41.941      9.863      41.062     9.952      41.688
-3      Educ        3.213      0.902       3.245     0.888       3.226
-4  Marriage        0.438      0.496       0.411     0.492       0.402
+   Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
+1     Gender        0.391      0.488       0.403     0.491       0.408
+2        Age       41.941      9.863      41.062     9.952      41.688
+3  Education        3.213      0.902       3.245     0.888       3.226
+4   Marriage        0.438      0.496       0.411     0.492       0.402
   SD:Treat2 SB:Control-Treat1 SB:Control-Treat2 SB:Treat1-Treat2
 1     0.492            -2.507            -3.527           -1.021
 2     9.366             8.912             2.561           -6.295
@@ -106,14 +109,14 @@ BlcDF %>%
 ```
 ## 結果を小数点4桁まで表示させる
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     print(digits = 4)
 
 ## Standardized biasのみ表示させる
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     print(only.SB = TRUE)
 ```
 
@@ -136,8 +139,8 @@ BlcDF %>%
 ```
 ## プロットのみ表示
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot()
 ```
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot1.png)
@@ -145,8 +148,8 @@ BlcDF %>%
 ```
 ## 垂直線を引く
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot(vline = c(10))
 ```
 
@@ -155,8 +158,8 @@ BlcDF %>%
 ```
 ## 点と文字の大きさを変更
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot(point.size = 5, text.size = 18)
 ```
 
@@ -166,8 +169,8 @@ BlcDF %>%
 ```
 ## 白黒に変更
 BlcDF %>%
-    BalanceR(group = "Group",
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot(point.size = 5, text.size = 18, color = FALSE)
 ```
 
@@ -178,8 +181,8 @@ BlcDF %>%
 ```
 ## もっともっとカスタマイズしたい
 BlcDF %>% 
-    BalanceR(group = "Group", 
-             cov   = c("Sex", "Age", "Educ", "Marriage")) %>% 
+    BalanceR(group = Group, 
+             cov   = c(Sex, Age, Educ, Marriage)) %>% 
     plot(point.size = 5, text.size = 18) +
     labs(x = "標準化差分", y = "共変量") +
     theme_bw(base_family = "HiraKakuProN-W3") +
