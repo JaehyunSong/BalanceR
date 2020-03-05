@@ -9,6 +9,7 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 *更新履歴*
 
   * 2020年3月5日: `group`と`cov`引数を入力する際、`"`を付ける必要がなくなりました。
+    * これまでの通り、`"`を付けても構いません。
   * 2020年2月22日: 共変量名を指定することが出来るように修正しました。
   * 2019年6月15日
     1. グループ変数名が`"group"`の場合に`BalanceR()`関数が動かない問題を修正しました。[善教将大](https://zkun.sakura.ne.jp)先生からエラーレポーティングを頂きました。
