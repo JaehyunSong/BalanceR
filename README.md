@@ -48,7 +48,7 @@ devtools::install_github("JaehyunSong/BalanceR")
 
 ```
 # パッケージの読み込み
-data(BalanceR)
+library(BalanceR)
 
 # ダミーデータの読み込み
 data(BlcDF)
