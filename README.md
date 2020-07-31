@@ -1,5 +1,7 @@
 # BalanceR 0.5.0
 
+[![CRAN status](https://www.r-pkg.org/badges/version/BalanceR)](https://CRAN.R-project.org/package=BalanceR)
+
 Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 実験データのバランスチェック (修正：2020年3月5日)
@@ -36,7 +38,7 @@ Xバーは平均値、s二乗は分散を意味します。ちなみにダミー
 
 ## インストール
 
-```
+```r
 devtools::install_github("JaehyunSong/BalanceR")
 ```
 
@@ -46,7 +48,7 @@ devtools::install_github("JaehyunSong/BalanceR")
 
 * BalanceR 0.5.0は**空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。
 
-```
+```r
 # パッケージの読み込み
 library(BalanceR)
 
@@ -78,7 +80,7 @@ print(BlcChk, digits = 3)
 
 `magrittr`パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ (`dplyr`、`ggplot2`など)が読み込まれているなら、パイプ演算子も使えます。
 
-```
+```r
 library(magrittr)
 
 BlcDF %>%
@@ -88,11 +90,12 @@ BlcDF %>%
 
 共変量名を指定することも可能です。一部のみの指定も可能です。
 
-```
+```r
 BlcDF %>%
     BalanceR(group = Group,
              cov   = c(Gender = Sex, Age, Education = Educ, Marriage))
-             
+```
+```
    Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
 1     Gender        0.391      0.488       0.403     0.491       0.408
 2        Age       41.941      9.863      41.062     9.952      41.688
@@ -109,7 +112,7 @@ BlcDF %>%
 
 デフォルトは`digits = 3`、`only.SB = FALSE`となります。
 
-```
+```r
 ## 結果を小数点4桁まで表示させる
 BlcDF %>%
     BalanceR(group = Group,
@@ -139,7 +142,7 @@ BlcDF %>%
 
 デフォルトは`vline = c(3, 5, 10)`、`point.size = 2.5`、`text.size = 12`です。
 
-```
+```r
 ## プロットのみ表示
 BlcDF %>%
     BalanceR(group = Group,
@@ -148,7 +151,7 @@ BlcDF %>%
 ```
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot1.png)
 
-```
+```r
 ## 垂直線を引く
 BlcDF %>%
     BalanceR(group = Group,
@@ -158,7 +161,7 @@ BlcDF %>%
 
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot2.png)
 
-```
+```r
 ## 点と文字の大きさを変更
 BlcDF %>%
     BalanceR(group = Group,
@@ -169,7 +172,8 @@ BlcDF %>%
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot3.png)
 
 白黒に出力する場合、`color = FALSE`を指定してください。
-```
+
+```r
 ## 白黒に変更
 BlcDF %>%
     BalanceR(group = Group,
@@ -181,7 +185,7 @@ BlcDF %>%
 
 図はggplot2で作成されているので、`+`で繋げれば、自由にカスタマイズできます。
 
-```
+```r
 ## もっともっとカスタマイズしたい
 BlcDF %>% 
     BalanceR(group = Group, 
