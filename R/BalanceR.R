@@ -13,6 +13,11 @@
 #' @export SB_Calc_B
 #' @export SB_Calc_C
 
+.onLoad <- function(...) {
+    packageStartupMessage("BalanceR 0.5.0")
+    library(magrittr)
+}
+
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
     my <- mean(y, na.rm = TRUE)
@@ -31,34 +36,11 @@ SB_Calc_B  <- function(x, y) {
 
 BalanceR <- function(data, group, cov) {
 
-    group <- deparse(substitute(group))
-    group <- str_replace_all(group, "\"", "")
-
-    temp.cov <- str_split(str_sub(deparse(substitute(cov)), 3, -2), ",")
-    temp.cov <- unlist(temp.cov)
-    temp.cov <- str_replace_all(temp.cov, "\"", "")
-    temp.cov <- str_replace_all(temp.cov, fixed(" "), "")
-
-    temp.cov2 <- rep(NA, length(temp.cov))
-    names(temp.cov2) <- rep(NA, length(temp.cov))
-
-    for (i in 1:length(temp.cov)) {
-        if (str_detect(temp.cov[i], "=") == TRUE) {
-            temp.cov2[i] <- unlist(str_split(temp.cov[i], "="))[2]
-            names(temp.cov2)[i] <- unlist(str_split(temp.cov[i], "="))[1]
-        } else {
-            temp.cov2[i] <- temp.cov[i]
-            names(temp.cov2)[i] <- temp.cov[i]
-        }
-    }
-
-    cov <- temp.cov2
-
-    if (length(group) != 1) {
+    if (length(deparse(substitute(group))) != 1) {
         stop("Length of group argument must be 1.")
     }
 
-    if ("tbl_df" %in% class(data) == TRUE) {
+    if (sum(class(data) == "tbl_df") != 0) {
         data <- as.data.frame(data)
     }
 
@@ -66,23 +48,16 @@ BalanceR <- function(data, group, cov) {
         stop("Only data.frame class is supported.")
     }
 
-    if (sum(cov %in% names(data)) != length(cov)) {
+    data  <- dplyr::select(data, {{ group }}, {{ cov }})
+    group <- names(data)[1]
+    cov   <- names(data)[-1]
 
-        notList_i <- which(cov %in% names(data))
-        notList   <- cov[-notList_i]
-
-        warning(paste0("Some covariates are not in the data: ",
-                       paste0(notList, collapse = ", ")),
-                "\nCovariates not listed in the data are excluded.")
-
-        cov <- cov[notList_i]
-    }
-    Group    <- as.character(sort(unique(data[, group])))
+    Group    <- as.character(sort(unique(data[, 1])))
     GroupV   <- group
     NGroup   <- length(Group)
     GrpComb  <- combn(Group, 2)
     NComb    <- ncol(GrpComb)
-    NCov     <- length(cov)
+    NCov     <- ncol(data) - 1
 
     CombName <- apply(combn(Group, 2), 2, paste, collapse = "-")
 
@@ -169,18 +144,84 @@ BalanceR <- function(data, group, cov) {
 
 
 
-    Result <- list(Desc = Result.df[, 1:(NGroup * 2 + 1)],
-                   SB   = Result.df[, c(1, (NGroup * 2 + 2):ncol(Result.df))])
+    Result <- list(Desc    = Result.df[, 1:(NGroup * 2 + 1)],
+                   SB      = Result.df[, c(1, (NGroup * 2 + 2):ncol(Result.df))],
+                   Data    = data,
+                   Group_N = NGroup,
+                   Cov_N   = NCov)
 
     class(Result) <- append("BalanceR", class(Result))
 
     return(Result)
 }
 
+validate_BalanceR <- function(data) {
+    if (!("BalanceR" %in% class(data))) {
+        stop("Please make sure whether the data has 'BalanceR' class.")
+    }
+
+    if (length(data) != 5) {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (prod(names(data) == c("Desc", "SB", "Data", "Group_N", "Cov_N")) != 1) {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (class(data$Desc) != "data.frame") {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (class(data$SB) != "data.frame") {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (nrow(data$Desc) != nrow(data$SB)) {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (!("data.frame" %in% class(data$Data))) {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (!is.numeric(data$Group_N) | !length(data$Group_N)) {
+        stop("Invalid 'BalanceR' class.")
+    }
+
+    if (!is.numeric(data$Cov_N) | !length(data$Cov_N)) {
+        stop("Invalid 'BalanceR' class.")
+    }
+}
+
 #' @method print BalanceR
 #' @export
 
-print.BalanceR <- function(data, only.SB = FALSE, digits = 3) {
+print.BalanceR <- function(data, only.SB = FALSE, simplify = FALSE, abs = FALSE,
+                           digits = 3) {
+
+    validate_BalanceR(data)
+
+    if (!is.logical(simplify)) {
+        stop("An argument 'simplify' must have logical value.")
+    }
+
+    if (!is.logical(only.SB)) {
+        stop("An argument 'only.SB' must have logical value.")
+    }
+
+    if (!is.logical(abs)) {
+        stop("An argument 'abs' must have logical value.")
+    }
+
+    if (abs) {
+        data$SB[, -1] <- abs(data$SB[, -1])
+    }
+
+    if (simplify) {
+        Max_SB_Pos  <- apply(abs(data$SB[, -1]), 1, which.max)
+        Max_SB      <- apply(data$SB[, -1], 1, `[`, Max_SB_Pos)
+        data$SB     <- data.frame(Maximum_SB = diag(Max_SB))
+    }
 
     if (only.SB == FALSE) {
         x <- data$Desc
@@ -205,7 +246,14 @@ plot.BalanceR <- function(data,
                           point.size = 2.5,
                           text.size  = 12,
                           vline      = c(3, 5, 10),
-                          color      = TRUE) {
+                          color      = TRUE,
+                          simpify    = FALSE,
+                          abs        = FALSE) {
+
+    validate_BalanceR(data)
+
+    # prod(unlist(lapply(lapply(lapply(list(a, a), class), `%in%`, "BalanceR"), sum)))
+
     x <- data$SB
     x <- x %>%
         select(Covariate, starts_with("SB")) %>%
