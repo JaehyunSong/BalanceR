@@ -10,7 +10,9 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 *更新履歴*
 
-  * 2020年8月1日: tidyselect形式で共変量指定 (`cov`)が可能になりました。
+  * 2020年8月1日
+    * tidyselect形式で共変量指定 (`cov`)が可能になりました。
+    * パッケージ読み込みの際、`magrittr`パッケージが自動的に読み込まれるようになりました。
   * 2020年3月5日: `group`と`cov`引数を入力する際、`"`を付ける必要がなくなりました。
     * これまでの通り、`"`を付けても構いません。
   * 2020年2月22日: 共変量名を指定することが出来るように修正しました。
@@ -41,13 +43,15 @@ Xバーは平均値、s二乗は分散を意味します。ちなみにダミー
 
 ```r
 devtools::install_github("JaehyunSong/BalanceR")
+# または
+remotes::install_github("JaehyunSong/BalanceR")
 ```
 
 ---
 
 ## 使い方
 
-* BalanceR 0.5.0は**空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。
+* BalanceR 0.6.0は**空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。
 
 ```r
 # パッケージの読み込み
@@ -82,8 +86,6 @@ print(BlcChk, digits = 3)
 `magrittr`パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ (`dplyr`、`ggplot2`など)が読み込まれているなら、パイプ演算子も使えます。
 
 ```r
-library(magrittr)
-
 BlcDF %>%
     BalanceR(group = Group,
              cov   = c(Sex, Age, Educ, Marriage))
