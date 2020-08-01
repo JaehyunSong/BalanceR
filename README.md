@@ -1,15 +1,16 @@
-# BalanceR 0.5.0
+# BalanceR 0.6.0
 
 [![CRAN status](https://www.r-pkg.org/badges/version/BalanceR)](https://CRAN.R-project.org/package=BalanceR)
 
 Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
-実験データのバランスチェック (修正：2020年3月5日)
+実験データのバランスチェック (修正：2020年8月1日)
 
 開発途上のパッケージです。不具合は改善点など、歓迎致します。
 
 *更新履歴*
 
+  * 2020年8月1日: tidyselect形式で共変量指定 (`cov`)が可能になりました。
   * 2020年3月5日: `group`と`cov`引数を入力する際、`"`を付ける必要がなくなりました。
     * これまでの通り、`"`を付けても構いません。
   * 2020年2月22日: 共変量名を指定することが出来るように修正しました。
