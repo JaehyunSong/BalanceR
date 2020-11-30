@@ -26,7 +26,8 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 * 2019年5月8日: `plot()`関数に`color =`引数を追加しました。デフォルトは`TRUE`ですが、`FALSE`に設定すると白黒に表示されます。[善教将大](https://zkun.sakura.ne.jp)先生からご意見いただきました。
 
 ---
-## Standardized Biasについて
+
+# Standardized Biasについて
 
 実験群として統制群 (Control)と処置群 (Treat)がある場合、共変量Xの標準化差分は以下のように計算できます。
 
@@ -40,7 +41,7 @@ Xバーは平均値、s二乗は分散を意味します。ちなみにダミー
 
 ---
 
-## インストール
+# インストール
 
 ```r
 devtools::install_github("JaehyunSong/BalanceR")
@@ -50,10 +51,13 @@ remotes::install_github("JaehyunSong/BalanceR")
 
 ---
 
-## 使い方
+# 使い方
+
+## バランスチェック
 
 * BalanceR 0.6.0は**空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。
 
+**Input**
 ```r
 # パッケージの読み込み
 library(BalanceR)
@@ -69,7 +73,7 @@ BlcChk <- BalanceR(data = BlcDF, group = Group,
 print(BlcChk, digits = 3)
 ```
 
-以上の関数を走らせると以下のような結果が出ます。
+**Output**
 
 ```
   Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
@@ -86,7 +90,10 @@ print(BlcChk, digits = 3)
 
 `magrittr`パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ (`dplyr`、`ggplot2`など)が読み込まれているなら、パイプ演算子も使えます。
 
+**Input**
 ```r
+library(magrittr)
+
 BlcDF %>%
     BalanceR(group = Group,
              cov   = c(Sex, Age, Educ, Marriage))
@@ -94,11 +101,14 @@ BlcDF %>%
 
 共変量名を指定することも可能です。一部のみの指定も可能です。
 
+**Input**
 ```r
 BlcDF %>%
     BalanceR(group = Group,
              cov   = c(Gender = Sex, Age, Education = Educ, Marriage))
 ```
+
+**Output**
 ```
    Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2
 1     Gender        0.391      0.488       0.403     0.491       0.408
@@ -116,13 +126,28 @@ BlcDF %>%
 
 デフォルトは`digits = 3`、`only.SB = FALSE`となります。
 
+**Input**
 ```r
-## 結果を小数点4桁まで表示させる
+## 結果を小数点2桁まで表示させる
 BlcDF %>%
     BalanceR(group = Group,
              cov   = c(Sex, Age, Educ, Marriage)) %>%
-    print(digits = 4)
+    print(digits = 2)
+```
 
+**Output**
+```
+  Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2 SD:Treat2 SB:Control-Treat1 SB:Control-Treat2 SB:Treat1-Treat2
+1       Sex         0.39       0.49        0.40      0.49        0.41      0.49             -2.51             -3.53            -1.02
+2       Age        41.94       9.86       41.06      9.95       41.69      9.37              8.87              2.63            -6.48
+3      Educ         3.21       0.90        3.25      0.89        3.23      0.90             -3.61             -1.47             2.14
+4  Marriage         0.44       0.50        0.41      0.49        0.40      0.49              5.46              7.24             1.78
+```
+
+各共変量の平均値・標準偏差が必要ない場合、`only.SB = TRUE`を指定すると以下のように結果が返ってきます。
+
+**Input**
+```r
 ## Standardized biasのみ表示させる
 BlcDF %>%
     BalanceR(group = Group,
@@ -130,8 +155,7 @@ BlcDF %>%
     print(only.SB = TRUE)
 ```
 
-各共変量の平均値・標準偏差が必要ない場合、以上のように実行すると以下のように結果が返ってきます。
-
+**Output**
 ```
   Covariate SB:Control-Treat1 SB:Control-Treat2 SB:Treat1-Treat2
 1       Sex            -2.507            -3.527           -1.021
@@ -140,7 +164,28 @@ BlcDF %>%
 4  Marriage             5.458             7.243            1.783
 ```
 
+標準化バイアスは符号が重要ではないため絶対値に変換し、グループのペアごとの標準化バイアスの中で最大値を確認するには`abs`と`simplify`引数を`TRUE`にしてください。
+
+**Input**
+
+```r
+BlcDF %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>% print(abs = TRUE, simplify = TRUE)
+```
+
+**Output**
+```
+  Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2 SD:Treat2 Maximum_SB
+1       Sex        0.391      0.488       0.403     0.491       0.408     0.492      3.527
+2       Age       41.941      9.863      41.062     9.952      41.688     9.366      8.872
+3      Educ        3.213      0.902       3.245     0.888       3.226     0.901      3.614
+4  Marriage        0.438      0.496       0.411     0.492       0.402     0.491      7.243
+```
+
 ---
+
+## 可視化
 
 可視化も可能です。カスタマイズ可能な部分は垂直線の位置 (`vline`)、点の大きさ (`point.size`)、文字の大きさ (`text.size`)のみです。
 
