@@ -4,7 +4,8 @@
 #' @import ggplot2
 #' @import stringr
 #' @import rlang
-#' @import magrittr
+#' @import rstan
+#' @importFrom magrittr `%>%`
 #' @importFrom stats var
 #' @importFrom utils combn
 #' @export BalanceR
@@ -12,11 +13,6 @@
 #' @export plot.BalanceR
 #' @export SB_Calc_B
 #' @export SB_Calc_C
-
-.onLoad <- function(...) {
-    packageStartupMessage("BalanceR 0.5.0")
-    library(magrittr)
-}
 
 SB_Calc_C  <- function(x, y) {
     mx <- mean(x, na.rm = TRUE)
@@ -155,40 +151,40 @@ BalanceR <- function(data, group, cov) {
     return(Result)
 }
 
-validate_BalanceR <- function(data) {
-    if (!("BalanceR" %in% class(data))) {
+validate_BalanceR <- function(x) {
+    if (!("BalanceR" %in% class(x))) {
         stop("Please make sure whether the data has 'BalanceR' class.")
     }
 
-    if (length(data) != 5) {
+    if (length(x) != 5) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (prod(names(data) == c("Desc", "SB", "Data", "Group_N", "Cov_N")) != 1) {
+    if (prod(names(x) == c("Desc", "SB", "Data", "Group_N", "Cov_N")) != 1) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (class(data$Desc) != "data.frame") {
+    if (class(x$Desc) != "data.frame") {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (class(data$SB) != "data.frame") {
+    if (class(x$SB) != "data.frame") {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (nrow(data$Desc) != nrow(data$SB)) {
+    if (nrow(x$Desc) != nrow(x$SB)) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (!("data.frame" %in% class(data$Data))) {
+    if (!("data.frame" %in% class(x$Data))) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (!is.numeric(data$Group_N) | !length(data$Group_N)) {
+    if (!is.numeric(x$Group_N) | !length(x$Group_N)) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (!is.numeric(data$Cov_N) | !length(data$Cov_N)) {
+    if (!is.numeric(x$Cov_N) | !length(x$Cov_N)) {
         stop("Invalid 'BalanceR' class.")
     }
 }
@@ -196,10 +192,14 @@ validate_BalanceR <- function(data) {
 #' @method print BalanceR
 #' @export
 
-print.BalanceR <- function(data, only.SB = FALSE, simplify = FALSE, abs = FALSE,
-                           digits = 3) {
+print.BalanceR <- function(x,
+                           only.SB  = FALSE,
+                           simplify = FALSE,
+                           abs      = FALSE,
+                           digits   = 3,
+                           ...) {
 
-    validate_BalanceR(data)
+    validate_BalanceR(x)
 
     if (!is.logical(simplify)) {
         stop("An argument 'simplify' must have logical value.")
@@ -214,23 +214,21 @@ print.BalanceR <- function(data, only.SB = FALSE, simplify = FALSE, abs = FALSE,
     }
 
     if (abs) {
-        data$SB[, -1] <- abs(data$SB[, -1])
+        x$SB[, -1] <- abs(x$SB[, -1])
     }
 
     if (simplify) {
-        Max_SB_Pos  <- apply(abs(data$SB[, -1]), 1, which.max)
-        Max_SB      <- apply(data$SB[, -1], 1, `[`, Max_SB_Pos)
-        data$SB     <- data.frame(Maximum_SB = diag(Max_SB))
+        Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
+        Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
+        x$SB        <- data.frame(Maximum_SB = diag(Max_SB))
     }
 
     if (only.SB == FALSE) {
-        x <- data$Desc
-        y <- data$SB
-        y$Covariate <- NULL
+        x$SB$Covariate <- NULL
 
-        x <- cbind(x, y)
-    }else{
-        x <- data$SB
+        x <- cbind(x$Desc, x$SB)
+    }else {
+        x <- x$SB
     }
 
     x[1:nrow(x), 2:ncol(x)] <- format(round(x[1:nrow(x), 2:ncol(x)], digits),
@@ -242,48 +240,102 @@ print.BalanceR <- function(data, only.SB = FALSE, simplify = FALSE, abs = FALSE,
 #' @method plot BalanceR
 #' @export
 
-plot.BalanceR <- function(data,
+plot.BalanceR <- function(x,
                           point.size = 2.5,
                           text.size  = 12,
-                          vline      = c(3, 5, 10),
+                          vline      = c(10, 25),
                           color      = TRUE,
-                          simpify    = FALSE,
-                          abs        = FALSE) {
+                          simplify   = FALSE,
+                          abs        = FALSE,
+                          ...) {
 
-    validate_BalanceR(data)
+    if (!is.logical(simplify) | length(simplify) != 1) {
+        stop("An argument 'simplify' must have logical value.")
+    }
 
-    # prod(unlist(lapply(lapply(lapply(list(a, a), class), `%in%`, "BalanceR"), sum)))
+    if (!is.logical(abs) | length(abs) != 1) {
+        stop("An argument 'abs' must have logical value.")
+    }
 
-    x <- data$SB
-    x <- x %>%
-        select(Covariate, starts_with("SB")) %>%
-        gather(key = Pair, value = SB, -Covariate) %>%
-        separate(Pair, into = c("X", "Pair"), sep = ":") %>%
-        select(-X)
+    if (!is.logical(color) | length(color) != 1) {
+        stop("An argument 'color' must have logical value.")
+    }
 
-    plot_x <- x %>%
-        ggplot(aes(x = SB, y = Covariate)) +
-        geom_vline(xintercept = c(-vline, vline),
+    if (!is.numeric(point.size) | length(point.size) != 1) {
+        stop("An argument 'point.size' must have logical value with length of 1.")
+    }
+
+    if (!is.numeric(text.size) | length(text.size) != 1) {
+        stop("An argument 'text.size' must have logical value with length of 1.")
+    }
+
+    if (!is.numeric(vline)) {
+        stop("An argument 'vline' must have numeric value.")
+    }
+
+    validate_BalanceR(x)
+
+    if (abs == TRUE) {
+        x$SB[, -1] <- abs(x$SB[, -1])
+
+        breaklines <- c(0, vline)
+        xlab       <- "Absolute Values of "
+    } else if (abs == FALSE) {
+        breaklines <- c(-vline, 0, vline)
+        xlab       <- ""
+    }
+
+    if (simplify == TRUE) {
+        Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
+        Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
+        x$SB        <- data.frame(Covariate  = x$SB$Covariate,
+                                  Pair       = "Maximum SB",
+                                  SB         = diag(Max_SB))
+
+        x <- x$SB
+
+        xlab <- paste0(xlab, "Maximum Standardized Biases")
+
+    } else if (simplify == FALSE) {
+        x <- x$SB
+
+        x <- x %>%
+            dplyr::select("Covariate", starts_with("SB")) %>%
+            tidyr::pivot_longer(cols = starts_with("SB"),
+                                names_to = "Pair", values_to = "SB") %>%
+            tidyr::separate("Pair", into = c("X", "Pair"), sep = ":") %>%
+            dplyr::select(-"X")
+
+        xlab <- paste0(xlab, "Standardized Biases")
+    }
+
+    plot_x <- ggplot(data = x, aes(x = .data$SB, y = .data$Covariate)) +
+        geom_vline(xintercept = breaklines,
                    linetype = 2) +
         geom_vline(xintercept = 0)
 
     if (color == TRUE) {
         plot_x <- plot_x +
-            geom_point(aes(color = Pair), size = point.size) +
+            geom_point(aes(color = .data$Pair), size = point.size) +
             labs(color = "")
+
+        if (simplify == TRUE) {
+            plot_x <- plot_x +
+                scale_color_manual(values = c("Maximum SB" = "black"))
+        }
     }else{
         plot_x <- plot_x +
-            geom_point(aes(shape = Pair), size = point.size) +
+            geom_point(aes(shape = .data$Pair), size = point.size) +
             labs(shape = "")
     }
 
     plot_x <- plot_x +
-        scale_x_continuous(breaks = c(-vline, 0, vline),
-                           labels = c(-vline, 0, vline)) +
-        labs(x = "Standardized Bias") +
+        scale_x_continuous(breaks = breaklines,
+                           labels = breaklines) +
+        labs(x = xlab, y = "Covariates") +
         theme_bw() +
-        theme(legend.position = "bottom",
+        theme(legend.position = ifelse(simplify == FALSE, "bottom", "none"),
               text = element_text(size = text.size))
 
-    return(plot_x)
+    plot_x
 }
