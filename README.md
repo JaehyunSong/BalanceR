@@ -171,7 +171,8 @@ BlcDF %>%
 ```r
 BlcDF %>%
     BalanceR(group = Group,
-             cov   = c(Sex, Age, Educ, Marriage)) %>% print(abs = TRUE, simplify = TRUE)
+             cov   = c(Sex, Age, Educ, Marriage)) %>% 
+    print(abs = TRUE, simplify = TRUE)
 ```
 
 **Output**
