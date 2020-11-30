@@ -220,6 +220,16 @@ BlcDF %>%
 
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot3.png)
 
+```r
+## 絶対値変換、標準化バイアスの最大値のみ出力
+BlcDF %>%
+    BalanceR(group = Group,
+            cov   = c(Sex, Age, Educ, Marriage)) %>%
+    plot(point.size = 5, text.size = 18, abs = TRUE, simplify = TRUE)
+```
+
+![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot6.png)
+
 白黒に出力する場合、`color = FALSE`を指定してください。
 
 ```r
