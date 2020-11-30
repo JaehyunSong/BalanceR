@@ -220,7 +220,8 @@ print.BalanceR <- function(x,
     if (simplify) {
         Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
         Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
-        x$SB        <- data.frame(Maximum_SB = diag(Max_SB))
+        x$SB        <- data.frame(Covariate  = x$SB$Covariate,
+                                  Maximum_SB = diag(Max_SB))
     }
 
     if (only.SB == FALSE) {
