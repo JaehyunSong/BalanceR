@@ -4,13 +4,14 @@
 #' @import ggplot2
 #' @import stringr
 #' @import rlang
-#' @import rstan
 #' @importFrom magrittr `%>%`
 #' @importFrom stats var
 #' @importFrom utils combn
 #' @export BalanceR
 #' @export print.BalanceR
 #' @export plot.BalanceR
+#' @export summary.BalanceR
+#' @export validate_BalanceR
 #' @export SB_Calc_B
 #' @export SB_Calc_C
 
@@ -339,4 +340,29 @@ plot.BalanceR <- function(x,
               text = element_text(size = text.size))
 
     plot_x
+}
+
+#' @method summary BalanceR
+#' @export
+
+summary.BalanceR <- function(object, digits = 3, ...) {
+
+    validate_BalanceR(object)
+
+    x <- object$SB
+
+    if (!is.numeric(digits) | length(digits) != 1) {
+        stop("An argument 'digits' must have numeric value with length of 1.")
+    }
+
+    x[, -1]    <- abs(x[, -1])
+    Max_SB_Pos <- apply(x[, -1], 1, which.max)
+    Max_SB     <- apply(x[, -1], 1, `[`, Max_SB_Pos)
+    x          <- data.frame(Covariate      = x$Covariate,
+                             Abs_Maximum_SB = diag(Max_SB))
+
+    x[1:nrow(x), 2:ncol(x)] <- format(round(x[1:nrow(x), 2:ncol(x)], digits),
+                                      nsmall = digits)
+
+    print(x)
 }

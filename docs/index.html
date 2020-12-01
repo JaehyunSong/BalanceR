@@ -13,9 +13,6 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="BalanceR">
 <meta property="og:description" content="BalanceR is a package for balance check using standardized bias.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:creator" content="@hadleywickham">
-<meta name="twitter:site" content="@rstudio">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -34,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">BalanceR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -70,13 +67,13 @@
 <p>Author/Maintainer: Jaehyun Song (<a href="http://www.jaysong.net" class="uri">http://www.jaysong.net</a> / <a href="mailto:tintstyle@gmail.com" class="email">tintstyle@gmail.com</a>)</p>
 <p>実験データのバランスチェック (修正：2020年11月30日)</p>
 <p>開発途上のパッケージです。不具合は改善点など、歓迎致します。</p>
-<p><em>更新履歴</em></p>
+<p><strong>更新履歴</strong></p>
 <ul>
 <li>2020年11月30日: <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>と<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>メソッドに<code>abs</code>と<code>simplify</code>引数を追加しました。</li>
 <li>2020年8月1日
 <ul>
 <li>tidyselect形式で共変量指定 (<code>cov</code>)が可能になりました。</li>
-<li>パッケージ読み込みの際、<code>magrittr</code>パッケージが自動的に読み込まれるようになりました。</li>
+<li><del>パッケージ読み込みの際、<code>magrittr</code>パッケージが自動的に読み込まれるようになりました。</del></li>
 </ul>
 </li>
 <li>2020年3月5日: <code>group</code>と<code>cov</code>引数を入力する際、<code>"</code>を付ける必要がなくなりました。
@@ -218,7 +215,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">BlcDF</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="reference/BalanceR.html">BalanceR</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">Group</span>,
-             cov   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Educ</span>, <span class="va">Marriage</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span>abs <span class="op">=</span> <span class="cn">TRUE</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+             cov   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Educ</span>, <span class="va">Marriage</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span>abs <span class="op">=</span> <span class="cn">TRUE</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><strong>Output</strong></p>
 <pre><code>  Covariate Mean:Control SD:Control Mean:Treat1 SD:Treat1 Mean:Treat2 SD:Treat2 Maximum_SB
 1       Sex        0.391      0.488       0.403     0.491       0.408     0.492      3.527
@@ -280,6 +278,20 @@
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
           text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot4.png"></p>
+<hr>
+</div>
+<div id="今後の予定" class="section level2">
+<h2 class="hasAnchor">
+<a href="#%E4%BB%8A%E5%BE%8C%E3%81%AE%E4%BA%88%E5%AE%9A" class="anchor"></a>今後の予定</h2>
+<ul>
+<li>属性ブロックの指定
+<ul>
+<li>ブロック間のランダマイズ + 一部のブロック位置の固定</li>
+<li>ブロック内のランダマイズ + ランダマイズしないブロックの指定</li>
+</ul>
+</li>
+<li>SimpleConjoint for Shiny</li>
+</ul>
 </div>
 </div>
 
