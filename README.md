@@ -1,12 +1,12 @@
 # BalanceR 0.7.1
 
+R package for balance checking using standardized biases.
+
 [![CRAN status](https://www.r-pkg.org/badges/version/BalanceR)](https://CRAN.R-project.org/package=BalanceR)
 
 Author/Maintainer: Jaehyun Song (https://www.jaysong.net / tintstyle@gmail.com)
 
-実験データのバランスチェック (修正：2020年11月30日)
-
-開発途上のパッケージです。不具合は改善点など、歓迎致します。
+---
 
 **更新履歴**
 
