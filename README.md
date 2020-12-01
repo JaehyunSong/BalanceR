@@ -1,4 +1,4 @@
-# BalanceR 0.7.0
+# BalanceR 0.7.1
 
 [![CRAN status](https://www.r-pkg.org/badges/version/BalanceR)](https://CRAN.R-project.org/package=BalanceR)
 
@@ -10,6 +10,7 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 **更新履歴**
 
+* 2020年12月1日: `summary()`メソッドの追加
 * 2020年11月30日: `print()`と`plot()`メソッドに`abs`と`simplify`引数を追加しました。
 * 2020年8月1日
   * tidyselect形式で共変量指定 (`cov`)が可能になりました。
@@ -184,6 +185,24 @@ BlcDF %>%
 4  Marriage        0.438      0.496       0.411     0.492       0.402     0.491      7.243
 ```
 
+記述統計なし、絶対値変換、最大標準化バイアスのみ出力する場合、`summary()`関数が便利です。`print(only.SB = TRUE, abs = TRUE, simplify = TRUE)`と同じ機能です。
+
+```r
+BlcDF %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage)) %>% 
+    summary(digits = 5)
+```
+
+**Output**
+```
+  Covariate Abs_Maximum_SB
+1       Sex        3.52742
+2       Age        8.87234
+3      Educ        3.61407
+4  Marriage        7.24323
+```
+
 ---
 
 ## 可視化
@@ -225,7 +244,7 @@ BlcDF %>%
 ## 絶対値変換、標準化バイアスの最大値のみ出力
 BlcDF %>%
     BalanceR(group = Group,
-            cov   = c(Sex, Age, Educ, Marriage)) %>%
+             cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot(point.size = 5, text.size = 18, abs = TRUE, simplify = TRUE)
 ```
 
