@@ -41,6 +41,9 @@
 
 <meta property="og:title" content="Balance Check with Standardized Bias — BalanceR" />
 <meta property="og:description" content="Balance check using standardized bias. If SBs are under 3, 5, or 10, you can interprete covariates are balanced between experimental groups." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@hadleywickham" />
+<meta name="twitter:site" content="@rstudio" />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BalanceR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -112,7 +115,7 @@
     <p>Balance check using standardized bias. If SBs are under 3, 5, or 10, you can interprete covariates are balanced between experimental groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>BalanceR</span>(<span class='no'>data</span>, <span class='no'>group</span>, <span class='no'>cov</span>)</pre>
+    <pre class="usage"><span class='fu'>BalanceR</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>group</span>, <span class='va'>cov</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,57 +136,58 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Load a dummy dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>BlcDF</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>BlcDF</span><span class='op'>)</span>
 
 <span class='co'># Balance check of respondents' gender, age, education level, and marital status.</span>
 <span class='co'># A group indicator variable is "Group"</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>))
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## Define new names of covariates</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Gender</span> <span class='kw'>=</span> <span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>))
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>Gender <span class='op'>=</span> <span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## Show a result with 4-digits</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 
 <span class='co'>## Show only standardized biases</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>only.SB</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span>only.SB <span class='op'>=</span> <span class='cn'>TRUE</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='co'>## Show a plot</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>()
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## Show a plot with vertical lines</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>vline</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span>))
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>vline <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## Change text and point sizes</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>point.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>text.size</span> <span class='kw'>=</span> <span class='fl'>12</span>)
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>point.size <span class='op'>=</span> <span class='fl'>3</span>, text.size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
 
 <span class='co'>## Display black-white plot</span>
-<span class='no'>BlcDF</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>BalanceR</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Group</span>,
-             <span class='kw'>cov</span>   <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sex</span>, <span class='no'>Age</span>, <span class='no'>Educ</span>, <span class='no'>Marriage</span>)) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='va'>BlcDF</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>BalanceR</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Group</span>,
+             cov   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sex</span>, <span class='va'>Age</span>, <span class='va'>Educ</span>, <span class='va'>Marriage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -199,7 +203,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

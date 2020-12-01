@@ -29,7 +29,7 @@ Plot "BalanceR" Object
   \item{\dots}{Ignored.}
 }
 \author{Jaehyun Song <http://www.jaysong.net>}
-\seealso{\code{\link{BalanceR}}, \code{\link{plot.BalanceR}}}
+\seealso{\code{\link{BalanceR}}, \code{\link{print.BalanceR}}}
 \examples{
 \dontrun{
 ## S3 method for class 'BalanceR'
