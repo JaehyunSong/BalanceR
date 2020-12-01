@@ -8,7 +8,7 @@ Author/Maintainer: Jaehyun Song (http://www.jaysong.net / tintstyle@gmail.com)
 
 開発途上のパッケージです。不具合は改善点など、歓迎致します。
 
-*更新履歴*
+**更新履歴**
 
 * 2020年11月30日: `print()`と`plot()`メソッドに`abs`と`simplify`引数を追加しました。
 * 2020年8月1日
@@ -257,3 +257,12 @@ BlcDF %>%
           text = element_text(size = 18))
 ```
 ![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot4.png)
+
+---
+
+## 今後の予定
+
+* 属性ブロックの指定
+  * ブロック間のランダマイズ + 一部のブロック位置の固定
+  * ブロック内のランダマイズ + ランダマイズしないブロックの指定
+* SimpleConjoint for Shiny
