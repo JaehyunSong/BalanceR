@@ -69,7 +69,8 @@ BalanceR <- function(data, group, cov) {
 
     DS <- data %>%
         group_by(Group = eval(parse(text = GroupV))) %>%
-        summarise(!!!parse_exprs(SumText)) %>%
+        summarise(!!!parse_exprs(SumText),
+                  .groups = "drop") %>%
         select(-Group) %>%
         as.data.frame()
 
@@ -77,13 +78,13 @@ BalanceR <- function(data, group, cov) {
         select(starts_with("mean")) %>%
         t() %>%
         as.data.frame()
-    names(DSm) <- paste0("V", seq(1, NGroup * 2, 2))
+    names(DSm) <- paste0("V", sprintf("%04d", seq(1, NGroup * 2, 2)))
 
     DSs <- DS %>%
         select(starts_with("sd")) %>%
         t() %>%
         as.data.frame()
-    names(DSs) <- paste0("V", seq(2, NGroup * 2, 2))
+    names(DSs) <- paste0("V", sprintf("%04d", seq(2, NGroup * 2, 2)))
 
     DS <- cbind(DSm, DSs)
 
@@ -104,17 +105,17 @@ BalanceR <- function(data, group, cov) {
 
             G1Text <- paste0("data %>% filter(",
                              group, " == '", tmpG1, "') %>% ",
-                             ".$", tmpCov)
+                             "pull(", tmpCov, ")")
             G2Text <- paste0("data %>% filter(",
                              group, " == '", tmpG2, "') %>% ",
-                             ".$", tmpCov)
+                             "pull(", tmpCov, ")")
 
             G1 <- eval(parse(text = G1Text))
             G2 <- eval(parse(text = G2Text))
 
-            if (length(unique(c(G1, G2))) == 2 &
-                 (0 %in% c(1, 0)) == TRUE &
-                 (1 %in% c(1, 0)) == TRUE) {
+            if (length(unique(data[, tmpCov])) == 2 &
+                (0 %in% c(1, 0)) == TRUE &
+                (1 %in% c(1, 0)) == TRUE) {
                 tmpSB[i, j] <- SB_Calc_B(G1, G2)
             }else{
                 tmpSB[i, j] <- SB_Calc_C(G1, G2)
