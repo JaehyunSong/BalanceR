@@ -1,4 +1,4 @@
-# BalanceR 0.7.1
+# BalanceR 0.7.5
 
 R package for balance checking using standardized biases.
 
@@ -10,6 +10,7 @@ Author/Maintainer: Jaehyun Song (https://www.jaysong.net / tintstyle@gmail.com)
 
 **更新履歴**
 
+* 2020年12月2日: グループ数が多い場合、記述統計がずれる現象を修正しました
 * 2020年12月1日: `summary()`メソッドの追加
 * 2020年11月30日: `print()`と`plot()`メソッドに`abs`と`simplify`引数を追加しました。
 * 2020年8月1日
