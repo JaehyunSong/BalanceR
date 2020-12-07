@@ -1,4 +1,4 @@
-# BalanceR 0.7.5
+# BalanceR 0.7.6
 
 R package for balance checking using standardized biases.
 
