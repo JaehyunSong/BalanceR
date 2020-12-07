@@ -219,9 +219,10 @@ print.BalanceR <- function(x,
         x$SB[, -1] <- abs(x$SB[, -1])
     }
 
-    if (simplify) {
+    if (simplify & dim(x$SB)[2] > 2) {
         Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
         Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
+
         x$SB        <- data.frame(Covariate  = x$SB$Covariate,
                                   Maximum_SB = diag(Max_SB))
     }
@@ -289,14 +290,15 @@ plot.BalanceR <- function(x,
     }
 
     if (simplify == TRUE) {
-        Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
-        Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
-        x$SB        <- data.frame(Covariate  = x$SB$Covariate,
-                                  Pair       = "Maximum SB",
-                                  SB         = diag(Max_SB))
+        if (dim(x$SB)[2] > 2) {
+            Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
+            Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
+            x$SB        <- data.frame(Covariate  = x$SB$Covariate,
+                                      Pair       = "Maximum SB",
+                                      SB         = diag(Max_SB))
+        }
 
-        x <- x$SB
-
+        x    <- x$SB
         xlab <- paste0(xlab, "Maximum Standardized Biases")
 
     } else if (simplify == FALSE) {
@@ -357,10 +359,13 @@ summary.BalanceR <- function(object, digits = 3, ...) {
     }
 
     x[, -1]    <- abs(x[, -1])
-    Max_SB_Pos <- apply(x[, -1], 1, which.max)
-    Max_SB     <- apply(x[, -1], 1, `[`, Max_SB_Pos)
-    x          <- data.frame(Covariate      = x$Covariate,
-                             Abs_Maximum_SB = diag(Max_SB))
+
+    if (dim(x)[2] > 2) {
+        Max_SB_Pos <- apply(x[, -1], 1, which.max)
+        Max_SB     <- apply(x[, -1], 1, `[`, Max_SB_Pos)
+        x          <- data.frame(Covariate      = x$Covariate,
+                                 Abs_Maximum_SB = diag(Max_SB))
+    }
 
     x[1:nrow(x), 2:ncol(x)] <- format(round(x[1:nrow(x), 2:ncol(x)], digits),
                                       nsmall = digits)

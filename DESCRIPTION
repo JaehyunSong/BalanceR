@@ -1,7 +1,7 @@
 Package: BalanceR
 Type: Package
 Title: Balance check using standardized bias
-Version: 0.7.5
+Version: 0.7.6
 Author: Jaehyun Song
 Maintainer: Jaehyun Song <tintstyle@gmail.com>
 Description: BalanceR is a package for balance check using standardized bias.
