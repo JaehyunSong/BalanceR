@@ -220,7 +220,7 @@ BlcDF %>%
              cov   = c(Sex, Age, Educ, Marriage)) %>%
     plot()
 ```
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot1.png)
+![](Screenshot/Plot1.png)
 
 ```r
 ## 垂直線を引く
@@ -230,7 +230,7 @@ BlcDF %>%
     plot(vline = c(10))
 ```
 
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot2.png)
+![](Screenshot/Plot2.png)
 
 ```r
 ## 点と文字の大きさを変更
@@ -240,7 +240,7 @@ BlcDF %>%
     plot(point.size = 5, text.size = 18)
 ```
 
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot3.png)
+![](Screenshot/Plot3.png)
 
 ```r
 ## 絶対値変換、標準化バイアスの最大値のみ出力
@@ -250,7 +250,7 @@ BlcDF %>%
     plot(point.size = 5, text.size = 18, abs = TRUE, simplify = TRUE)
 ```
 
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot6.png)
+![](Screenshot/Plot6.png)
 
 白黒に出力する場合、`color = FALSE`を指定してください。
 
@@ -262,7 +262,7 @@ BlcDF %>%
     plot(point.size = 5, text.size = 18, color = FALSE)
 ```
 
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot5.png)
+![](Screenshot/Plot5.png)
 
 図はggplot2で作成されているので、`+`で繋げれば、自由にカスタマイズできます。
 
@@ -277,7 +277,7 @@ BlcDF %>%
     theme(legend.position = "bottom",
           text = element_text(size = 18))
 ```
-![](https://github.com/JaehyunSong/BalanceR/blob/master/Screenshot/Plot4.png)
+![](Screenshot/Plot4.png)
 
 ---
 
