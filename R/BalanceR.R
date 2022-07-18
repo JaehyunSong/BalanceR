@@ -4,6 +4,7 @@
 #' @import ggplot2
 #' @import stringr
 #' @import rlang
+#' @import tidyselect
 #' @importFrom magrittr `%>%`
 #' @importFrom stats var
 #' @importFrom utils combn
@@ -37,12 +38,12 @@ BalanceR <- function(data, group, cov) {
         stop("Length of group argument must be 1.")
     }
 
-    if (sum(class(data) == "tbl_df") != 0) {
+    if (inherits(data, "tbl_df")) {
         data <- as.data.frame(data)
     }
 
-    if (prod(class(data) == "data.frame") == 0) {
-        stop("Only data.frame class is supported.")
+    if (!inherits(data, "data.frame")) {
+        stop("Only data.frame or tibble class is supported.")
     }
 
     data  <- dplyr::select(data, {{ group }}, {{ cov }})
@@ -99,6 +100,7 @@ BalanceR <- function(data, group, cov) {
 
     for (i in 1:NCov) {
         tmpCov <- cov[i]
+
         for (j in 1:NComb) {
             tmpG1  <- GrpComb[1, j]
             tmpG2  <- GrpComb[2, j]
@@ -113,9 +115,12 @@ BalanceR <- function(data, group, cov) {
             G1 <- eval(parse(text = G1Text))
             G2 <- eval(parse(text = G2Text))
 
-            if (length(unique(data[, tmpCov])) == 2 &
-                (0 %in% c(1, 0)) == TRUE &
-                (1 %in% c(1, 0)) == TRUE) {
+            if (length(unique(data[, tmpCov])) == 2) {
+                if(min(unique(data[, tmpCov])) != 0 |
+                   max(unique(data[, tmpCov])) != 1) {
+                    G1 <- ifelse(G1 == min(G1), 0, 1)
+                    G2 <- ifelse(G2 == min(G2), 0, 1)
+                }
                 tmpSB[i, j] <- SB_Calc_B(G1, G2)
             }else{
                 tmpSB[i, j] <- SB_Calc_C(G1, G2)
@@ -166,11 +171,11 @@ validate_BalanceR <- function(x) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (class(x$Desc) != "data.frame") {
+    if (!inherits(x$Desc, "data.frame")) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (class(x$SB) != "data.frame") {
+    if (!inherits(x$SB, "data.frame")) {
         stop("Invalid 'BalanceR' class.")
     }
 
@@ -178,7 +183,7 @@ validate_BalanceR <- function(x) {
         stop("Invalid 'BalanceR' class.")
     }
 
-    if (!("data.frame" %in% class(x$Data))) {
+    if (!inherits(x$Data, "data.frame")) {
         stop("Invalid 'BalanceR' class.")
     }
 

@@ -7,10 +7,10 @@ BalanceR(data, group, cov)
 \arguments{
     \item{data}{Default dataset to use for balance check}
     \item{group}{Default character which indicates experimental group}
-    \item{cov}{A vector of covariates name}
+    \item{cov}{A vector of covariates name}; binary covariates are automatically converted to dummy variables.
 }
 \description{
-Balance check using standardized bias. If SBs are under 3, 5, or 10, you can interprete covariates are balanced between experimental groups.
+Balance check using standardized bias. If SBs are under 3, 5, 10, or 25, you can interprete covariates are balanced between experimental groups.
 }
 \examples{
 \dontrun{

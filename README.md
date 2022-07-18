@@ -4,12 +4,13 @@ R package for balance checking using standardized biases.
 
 [![CRAN status](https://www.r-pkg.org/badges/version/BalanceR)](https://CRAN.R-project.org/package=BalanceR)
 
-Author/Maintainer: Jaehyun Song (https://www.jaysong.net / tintstyle@gmail.com)
+Author/Maintainer: Jaehyun Song (<https://www.jaysong.net> / <tintstyle@gmail.com>)
 
 ---
 
 **更新履歴**
 
+* 2022年7月18日: [秦正樹](http://hatam.sakura.ne.jp/)先生からのご意見に基づき、二値変数の制約を緩めました。これまで二値変数の場合、0と1のみで構成される必要があった点を修正しました。具体的には値が2つのみで構成されている場合、小さい方を0、大きい方を1にリコーディングした上でバランスを計算します。
 * 2020年12月7日: グループが2つの場合、`summary()`メソッドおよび`simplify`引数が使えないバグを修正しました。
 * 2020年12月2日: グループ数が多い場合、記述統計がずれる現象を修正しました。
 * 2020年12月1日: `summary()`メソッドの追加
