@@ -1,4 +1,4 @@
-# BalanceR 0.7.6
+# BalanceR 0.7.7
 
 R package for balance checking using standardized biases.
 
@@ -10,14 +10,14 @@ Author/Maintainer: Jaehyun Song (<https://www.jaysong.net> / <tintstyle@gmail.co
 
 **更新履歴**
 
-* 2022年7月18日: [秦正樹](http://hatam.sakura.ne.jp/)先生からのご意見に基づき、二値変数の制約を緩めました。これまで二値変数の場合、0と1のみで構成される必要があった点を修正しました。具体的には値が2つのみで構成されている場合、小さい方を0、大きい方を1にリコーディングした上でバランスを計算します。
+* 2022年7月18日: [秦正樹](http://hatam.sakura.ne.jp/)先生から頂きましたご意見を反映し、二値変数の制約を緩めました。これまで二値変数の場合、0と1のみで構成される必要がありましたが、このような制約がなくなりました。具体的には値が2つのみで構成されている場合、小さい方を0、大きい方を1にリコーディングした上でバランスを計算します。
 * 2020年12月7日: グループが2つの場合、`summary()`メソッドおよび`simplify`引数が使えないバグを修正しました。
 * 2020年12月2日: グループ数が多い場合、記述統計がずれる現象を修正しました。
 * 2020年12月1日: `summary()`メソッドの追加
 * 2020年11月30日: `print()`と`plot()`メソッドに`abs`と`simplify`引数を追加しました。
 * 2020年8月1日
   * tidyselect形式で共変量指定 (`cov`)が可能になりました。
-  * ~~パッケージ読み込みの際、`magrittr`パッケージが自動的に読み込まれるようになりました。~~
+  * ~~パッケージ読み込みの際、{magrittr}パッケージが自動的に読み込まれるようになりました。~~
 * 2020年3月5日: `group`と`cov`引数を入力する際、`"`を付ける必要がなくなりました。
   * これまでの通り、`"`を付けても構いません。
 * 2020年2月22日: 共変量名を指定することが出来るように修正しました。
@@ -37,7 +37,7 @@ Author/Maintainer: Jaehyun Song (<https://www.jaysong.net> / <tintstyle@gmail.co
 
 <center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;(s^2_{\textrm{Treat}}&space;&plus;&space;s^2_{\textrm{Control}})}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot (s^2_{\textrm{Treat}} + s^2_{\textrm{Control}})}}" /></center>
 
-Xバーは平均値、s二乗は分散を意味します。ちなみにダミー変数の場合、以下のようになります。(`BalanceR`では変数が0/1のみで構成されている場合、この式で標準化差分を計算します。ただし、二値変数であっても、1/2のみで構成されている場合は該当しないので、データクリーニングの段階でダミー化をやっておくことをおすすめします。)
+Xバーは平均値、s二乗は分散を意味します。ちなみにダミー変数の場合、以下のようになります。({BalanceR}では変数が0/1のみで構成されている場合、この式で標準化差分を計算します。)
 
 <center><img src="https://latex.codecogs.com/png.latex?\bg_white&space;\textrm{SB}&space;=&space;100&space;\cdot&space;\frac{\bar{X}_{\textrm{Treat}}&space;-&space;\bar{X}_{\textrm{Control}}}{\sqrt{0.5&space;\cdot&space;((\bar{X}_{\textrm{Treat}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Treat}})&space;&plus;&space;(\bar{X}_{\textrm{Control}}&space;\cdot&space;(1&space;-&space;\bar{X}_{\textrm{Control}}))}}" title="\textrm{SB} = 100 \cdot \frac{\bar{X}_{\textrm{Treat}} - \bar{X}_{\textrm{Control}}}{\sqrt{0.5 \cdot ((\bar{X}_{\textrm{Treat}} \cdot (1 - \bar{X}_{\textrm{Treat}}) + (\bar{X}_{\textrm{Control}} \cdot (1 - \bar{X}_{\textrm{Control}}))}}" /></center>
 
@@ -59,7 +59,7 @@ remotes::install_github("JaehyunSong/BalanceR")
 
 ## バランスチェック
 
-* BalanceR 0.6.0は**空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。
+* **空白や特殊文字が含まれている変数名に対応しておりません**。したがって、\`Variable 1\`や\`Variable-2\`のような書き方は使えません。予め変数名の空白や特殊文字（一般的に変数名・オブジェクト名としては使えない文字）を除去してください。変数名は英数字と`.`、`_`のみで構成することを推奨します。
 
 **Input**
 ```r
@@ -92,11 +92,11 @@ print(BlcChk, digits = 3)
 4     0.491             5.458             7.243            1.783
 ```
 
-`magrittr`パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ (`dplyr`、`ggplot2`など)が読み込まれているなら、パイプ演算子も使えます。
+{magrittr}パッケージやその他パイプ演算子(`%>%`)を用いるパッケージ ({tidyverse}、{dplyr}、{ggplot2}など)が読み込まれているなら、パイプ演算子も使えます。
 
 **Input**
 ```r
-library(magrittr)
+library(tidyverse)
 
 BlcDF %>%
     BalanceR(group = Group,
@@ -284,4 +284,4 @@ BlcDF %>%
 
 ## 今後の予定
 
-* 2つの"BalanceR"オブジェクトの可視化（Before-After形式）
+* 2つの`BalanceR`オブジェクトの可視化（Before-After形式）
