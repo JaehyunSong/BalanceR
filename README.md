@@ -278,7 +278,30 @@ BlcDF %>%
     theme(legend.position = "bottom",
           text = element_text(size = 18))
 ```
+
 ![](Screenshot/Plot4.png)
+
+2つの`BalanceR`オブジェクトを同時に可視化することもできます。
+
+* 2つの`BalanceR`オブジェクトは`group`、`cov`が一致している必要があります。
+* 強制的に`simpify = TRUE`が適用されます。
+
+```r
+BlcChk1 <- BlcDF[1:1000, ] %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage))
+
+BlcChk2 <- BlcDF[1001:2000, ] %>%
+    sample_n(500) %>%
+    BalanceR(group = Group,
+             cov   = c(Sex, Age, Educ, Marriage))
+
+plot(BlcChk1, compare = BlcChk2, 
+     names = c("First 1000 Samples", "Second 1000 Samples"),
+     abs = TRUE)
+```
+
+![](Screenshot/Plot7.png)
 
 ---
 

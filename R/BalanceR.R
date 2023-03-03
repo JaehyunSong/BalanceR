@@ -256,6 +256,8 @@ plot.BalanceR <- function(x,
                           color      = TRUE,
                           simplify   = FALSE,
                           abs        = FALSE,
+                          compare    = NULL,
+                          names      = NULL,
                           ...) {
 
     if (!is.logical(simplify) | length(simplify) != 1) {
@@ -282,70 +284,151 @@ plot.BalanceR <- function(x,
         stop("An argument 'vline' must have numeric value.")
     }
 
-    validate_BalanceR(x)
+    if (is.null(compare)) {
+        validate_BalanceR(x)
 
-    if (abs == TRUE) {
-        x$SB[, -1] <- abs(x$SB[, -1])
+        if (abs == TRUE) {
+            x$SB[, -1] <- abs(x$SB[, -1])
 
-        breaklines <- c(0, vline)
-        xlab       <- "Absolute Values of "
-    } else if (abs == FALSE) {
-        breaklines <- c(-vline, 0, vline)
-        xlab       <- ""
-    }
+            breaklines <- c(0, vline)
+            xlab       <- "Absolute Values of "
+        } else if (abs == FALSE) {
+            breaklines <- c(-vline, 0, vline)
+            xlab       <- ""
+        }
 
-    if (simplify == TRUE) {
+        if (simplify == TRUE) {
+            if (dim(x$SB)[2] > 2) {
+                Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
+                Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
+                x$SB        <- data.frame(Covariate  = x$SB$Covariate,
+                                          Pair       = "Maximum SB",
+                                          SB         = diag(Max_SB))
+            }
+
+            x    <- x$SB
+            xlab <- paste0(xlab, "Maximum Standardized Biases")
+
+        } else if (simplify == FALSE) {
+            x <- x$SB
+
+            x <- x %>%
+                dplyr::select("Covariate", starts_with("SB")) %>%
+                tidyr::pivot_longer(cols = starts_with("SB"),
+                                    names_to = "Pair", values_to = "SB") %>%
+                tidyr::separate("Pair", into = c("X", "Pair"), sep = ":") %>%
+                dplyr::select(-"X")
+
+            xlab <- paste0(xlab, "Standardized Biases")
+        }
+
+        plot_x <- ggplot(data = x, aes(x = .data$SB, y = .data$Covariate)) +
+            geom_vline(xintercept = breaklines,
+                       linetype = 2) +
+            geom_vline(xintercept = 0)
+
+        if (color == TRUE) {
+            plot_x <- plot_x +
+                geom_point(aes(color = .data$Pair), size = point.size) +
+                labs(color = "")
+
+            if (simplify == TRUE) {
+                plot_x <- plot_x +
+                    scale_color_manual(values = c("Maximum SB" = "black"))
+            }
+        }else{
+            plot_x <- plot_x +
+                geom_point(aes(shape = .data$Pair), size = point.size) +
+                labs(shape = "")
+        }
+
+        plot_x <- plot_x +
+            scale_x_continuous(breaks = breaklines,
+                               labels = breaklines) +
+            labs(x = xlab, y = "Covariates") +
+            theme_bw() +
+            theme(legend.position = ifelse(simplify == FALSE, "bottom", "none"),
+                  text = element_text(size = text.size))
+    } else if (!is.null(compare)) {
+
+        y <- compare
+
+        if (!all.equal(names(x$SB), names(y$SB))) {
+            stop("The two BalanceR objects must have the same groups.")
+        }
+
+        if (!all.equal(x$SB$Covariate, y$SB$Covariate)) {
+            stop("The two BalanceR objects must have the same covariates set.")
+        }
+
+        validate_BalanceR(x)
+        validate_BalanceR(y)
+
+        if (is.null(names)) {
+            names <- c("Sample 1", "Sample 2")
+        }
+
+        if (abs == TRUE) {
+            x$SB[, -1] <- abs(x$SB[, -1])
+            y$SB[, -1] <- abs(y$SB[, -1])
+
+            breaklines <- c(0, vline)
+            xlab       <- "Absolute Values of "
+        } else if (abs == FALSE) {
+            breaklines <- c(-vline, 0, vline)
+            xlab       <- ""
+        }
+
         if (dim(x$SB)[2] > 2) {
             Max_SB_Pos  <- apply(abs(x$SB[, -1]), 1, which.max)
             Max_SB      <- apply(x$SB[, -1], 1, `[`, Max_SB_Pos)
-            x$SB        <- data.frame(Covariate  = x$SB$Covariate,
+            x$SB   <- data.frame(Covariate  = x$SB$Covariate,
                                       Pair       = "Maximum SB",
                                       SB         = diag(Max_SB))
         }
 
-        x    <- x$SB
+        if (dim(y$SB)[2] > 2) {
+            Max_SB_Pos  <- apply(abs(y$SB[, -1]), 1, which.max)
+            Max_SB      <- apply(y$SB[, -1], 1, `[`, Max_SB_Pos)
+            y$SB   <- data.frame(Covariate  = y$SB$Covariate,
+                                      Pair       = "Maximum SB",
+                                      SB         = diag(Max_SB))
+        }
+
+        x <- x$SB
+        y <- y$SB
         xlab <- paste0(xlab, "Maximum Standardized Biases")
 
-    } else if (simplify == FALSE) {
-        x <- x$SB
+        x <- list(x, y)
+        names(x) <- names
 
-        x <- x %>%
-            dplyr::select("Covariate", starts_with("SB")) %>%
-            tidyr::pivot_longer(cols = starts_with("SB"),
-                                names_to = "Pair", values_to = "SB") %>%
-            tidyr::separate("Pair", into = c("X", "Pair"), sep = ":") %>%
-            dplyr::select(-"X")
+        x <- bind_rows(x, .id = "Sample")
+        x$Sample <- forcats::fct_inorder(x$Sample)
 
-        xlab <- paste0(xlab, "Standardized Biases")
-    }
+        plot_x <- ggplot(data = x, aes(x     = .data$SB,
+                                       y     = .data$Covariate)) +
+            geom_vline(xintercept = breaklines,
+                       linetype = 2) +
+            geom_vline(xintercept = 0)
 
-    plot_x <- ggplot(data = x, aes(x = .data$SB, y = .data$Covariate)) +
-        geom_vline(xintercept = breaklines,
-                   linetype = 2) +
-        geom_vline(xintercept = 0)
-
-    if (color == TRUE) {
-        plot_x <- plot_x +
-            geom_point(aes(color = .data$Pair), size = point.size) +
-            labs(color = "")
-
-        if (simplify == TRUE) {
+        if (color == TRUE) {
             plot_x <- plot_x +
-                scale_color_manual(values = c("Maximum SB" = "black"))
+                geom_point(aes(color = .data$Sample), size = point.size) +
+                labs(color = "")
+        } else {
+            plot_x <- plot_x +
+                geom_point(aes(shape = .data$Sample), size = point.size) +
+                labs(shape = "")
         }
-    }else{
-        plot_x <- plot_x +
-            geom_point(aes(shape = .data$Pair), size = point.size) +
-            labs(shape = "")
-    }
 
-    plot_x <- plot_x +
-        scale_x_continuous(breaks = breaklines,
-                           labels = breaklines) +
-        labs(x = xlab, y = "Covariates") +
-        theme_bw() +
-        theme(legend.position = ifelse(simplify == FALSE, "bottom", "none"),
-              text = element_text(size = text.size))
+        plot_x <- plot_x +
+            scale_x_continuous(breaks = breaklines,
+                               labels = breaklines) +
+            labs(x = xlab, y = "Covariates") +
+            theme_bw() +
+            theme(legend.position = "bottom",
+                  text            = element_text(size = text.size))
+    }
 
     plot_x
 }
