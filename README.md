@@ -1,4 +1,4 @@
-# BalanceR 0.7.7
+# BalanceR 0.8.0
 
 R package for balance checking using standardized biases.
 
@@ -10,6 +10,7 @@ Author/Maintainer: Jaehyun Song (<https://www.jaysong.net> / <tintstyle@gmail.co
 
 **更新履歴**
 
+* 2023年3月3日: `plot()`関数で2つの`BalanceR`オブジェクトを一つのプロットにまとめるようになりました。`compare`引数にもう一つの`BalanceR`オブジェクト名を指定してください。
 * 2022年7月18日: [秦正樹](http://hatam.sakura.ne.jp/)先生から頂きましたご意見を反映し、二値変数の制約を緩めました。これまで二値変数の場合、0と1のみで構成される必要がありましたが、このような制約がなくなりました。具体的には値が2つのみで構成されている場合、小さい方を0、大きい方を1にリコーディングした上でバランスを計算します。
 * 2020年12月7日: グループが2つの場合、`summary()`メソッドおよび`simplify`引数が使えないバグを修正しました。
 * 2020年12月2日: グループ数が多い場合、記述統計がずれる現象を修正しました。
