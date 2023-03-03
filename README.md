@@ -293,7 +293,6 @@ BlcChk1 <- BlcDF[1:1000, ] %>%
              cov   = c(Sex, Age, Educ, Marriage))
 
 BlcChk2 <- BlcDF[1001:2000, ] %>%
-    sample_n(500) %>%
     BalanceR(group = Group,
              cov   = c(Sex, Age, Educ, Marriage))
 
