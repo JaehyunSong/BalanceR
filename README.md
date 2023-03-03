@@ -308,4 +308,4 @@ plot(BlcChk1, compare = BlcChk2,
 
 ## 今後の予定
 
-* 2つの`BalanceR`オブジェクトの可視化（Before-After形式）
+* またコードが汚くなったので、綺麗にしたいです...
